@@ -1,0 +1,20 @@
+{
+  "name": "co2-emission",
+  "version": "1.0.0",
+  "description": "A web project to estimate the CO2 emission of various websites",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "start:backend": "npm run start --workspace=backend",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "firebase": "^10.14.0"
+  }
+}

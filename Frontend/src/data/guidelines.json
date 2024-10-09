@@ -1,0 +1,76 @@
+{
+  "guidelines": [
+    {
+      "id": 1,
+      "title": "Optimize Images",
+      "description": "Use compressed images and modern formats (like WebP) to reduce file sizes and decrease load times, ultimately lowering energy consumption.",
+      "icon": "🖼️"
+    },
+    {
+      "id": 2,
+      "title": "Enable Lazy Loading",
+      "description": "Implement lazy loading for images and videos to ensure that resources are only loaded when they enter the viewport, reducing unnecessary data transfer.",
+      "icon": "🌐"
+    },
+    {
+      "id": 3,
+      "title": "Minimize HTTP Requests",
+      "description": "Reduce the number of elements on a page to minimize HTTP requests, leading to lower energy usage during data transmission.",
+      "icon": "📉"
+    },
+    {
+      "id": 4,
+      "title": "Use Efficient Coding Practices",
+      "description": "Write clean, efficient code and minimize the use of heavy libraries to reduce the computational load on servers.",
+      "icon": "💻"
+    },
+    {
+      "id": 5,
+      "title": "Leverage Caching",
+      "description": "Utilize browser caching to store frequently accessed resources locally, reducing the need for repeated server requests.",
+      "icon": "📦"
+    },
+    {
+      "id": 6,
+      "title": "Implement Content Delivery Networks (CDNs)",
+      "description": "Use CDNs to distribute content closer to users, which can reduce latency and energy consumption during data delivery.",
+      "icon": "📡"
+    },
+    {
+      "id": 7,
+      "title": "Use Green Hosting Services",
+      "description": "Choose hosting providers that use renewable energy sources to power their servers, significantly reducing the carbon footprint of your website.",
+      "icon": "🌱"
+    },
+    {
+      "id": 8,
+      "title": "Reduce Animation and Effects",
+      "description": "Limit the use of heavy animations and effects, as they can increase CPU usage and energy consumption on user devices.",
+      "icon": "⚡"
+    },
+    {
+      "id": 9,
+      "title": "Audit Your Site Regularly",
+      "description": "Perform regular audits using tools like Google Lighthouse to identify areas for optimization and track improvements in performance and emissions.",
+      "icon": "🔍"
+    },
+    {
+      "id": 10,
+      "title": "Educate Users on Sustainability",
+      "description": "Provide users with information on how they can contribute to reducing CO2 emissions through their digital behavior and choices.",
+      "icon": "📚"
+    },
+    {
+      "id": 11,
+      "title": "Implement Dark Mode",
+      "description": "Encourage the use of dark mode on your website to save energy on OLED screens, reducing overall power consumption.",
+      "icon": "🌙"
+    },
+    {
+      "id": 12,
+      "title": "Optimize Server Response Times",
+      "description": "Reduce server response times by optimizing your backend processes and databases, which can lower energy usage during data retrieval.",
+      "icon": "⚙️"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+    "features": [
+      {
+        "title": "Carbon Emission Checker",
+        "description": "Analyze and reduce your website's carbon footprint based on energy usage."
+      },
+      {
+        "title": "Lazy Loading Detection",
+        "description": "Check whether your website uses lazy loading to optimize image and resource usage."
+      },
+      {
+        "title": "CSS Optimization Suggestions",
+        "description": "Get recommendations on how to improve your CSS for better performance and lower energy consumption."
+      }
+    ]
+  }
+  

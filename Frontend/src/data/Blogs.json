@@ -1,0 +1,32 @@
+{
+    "blogs": [
+      {
+        "id": 1,
+        "title": "Boost Your Website’s Eco-Friendliness",
+        "href": "#",
+        "description": "Learn the best practices to optimize your website for a greener digital presence and reduce carbon emissions significantly.",
+        "date": "Oct 7, 2024",
+        "datetime": "2024-10-07",
+        "imageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+      },
+      {
+        "id": 2,
+        "title": "Innovative Web Design for a Greener Future",
+        "href": "#",
+        "description": "Discover how innovative web design can contribute to environmental sustainability and reduce energy consumption.",
+        "date": "Sep 28, 2024",
+        "datetime": "2024-09-28",
+        "imageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+      },
+      {
+        "id": 3,
+        "title": "Measuring CO2 Emissions from Your Website",
+        "href": "#",
+        "description": "Learn how to measure your website's CO2 emissions and implement strategies to minimize its environmental footprint.",
+        "date": "Aug 15, 2024",
+        "datetime": "2024-08-15",
+        "imageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+      }
+    ]
+  }
+  

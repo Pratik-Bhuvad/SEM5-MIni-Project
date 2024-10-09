@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js", 
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tgwf/co2": "^0.16.1",
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
+    "chrome-launcher": "^1.1.2",
+    "circular-json": "^0.5.9",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "cssbeautify": "^0.3.1",
+    "cssnano": "^7.0.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "lighthouse": "^9.3.1",
+    "postcss": "^8.4.47",
+    "postcss-safe-parser": "^7.0.1",
+    "puppeteer": "^23.5.1",
+    "purgecss": "^6.0.0",
+    "website-carbon-badges": "^1.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
