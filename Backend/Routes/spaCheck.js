@@ -5,11 +5,30 @@ const router = express.Router();
 
 // Function to check if the website is a Single Page Application (SPA)
 async function isSinglePageApplication(url) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: true, // Ensure headless mode
+        args: [
+            '--disable-gpu',
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage'
+        ]
+    });
+
     const page = await browser.newPage();
 
-    // Go to the URL
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    // Block images, stylesheets, and fonts to improve performance
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+        if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
+            req.abort(); // Block these resources
+        } else {
+            req.continue();
+        }
+    });
+
+    // Go to the URL with a reasonable timeout and minimal waiting time
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 10000 }); // 10 seconds timeout
 
     // Check for root element (common in SPAs)
     const rootElement = await page.evaluate(() => {
@@ -56,4 +75,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = {router, isSinglePageApplication};
+module.exports = { router, isSinglePageApplication };

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Co2Routes = require('../Utils/lighthouse'); // For emissions analysis
-const {optimizeCSS} = require('../Routes/cssOptimization'); // CSS optimization function
-const {isSinglePageApplication} = require('../Routes/spaCheck'); // SPA check function
-const {optimizeImages} = require('../Routes/imageOptimize')
+const { optimizeCSS } = require('../Routes/cssOptimization'); // CSS optimization function
+const { isSinglePageApplication } = require('../Routes/spaCheck'); // SPA check function
+const { optimizeImages } = require('../Routes/imageOptimize');
 
 // API endpoint to handle comprehensive analysis
 router.post('/', async (req, res) => {
@@ -17,36 +17,49 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        console.log("Starting CO2 analysis...");
-        const emissionsResult = await Co2Routes(url);
-        console.log("CO2 analysis complete:", emissionsResult);
+        // Use Promise.allSettled to handle each function independently
+        console.log("Starting comprehensive analysis...");
 
-        console.log("Starting CSS optimization...");
-        const cssResult = await optimizeCSS(url.value);
-        console.log("CSS optimization complete:", cssResult);
+        const results = await Promise.allSettled([
+            Co2Routes(url), // CO2 emissions analysis
+            optimizeCSS(url.value), // CSS optimization
+            isSinglePageApplication(url.value), // SPA check
+            optimizeImages(url.value) // Image optimization
+        ]);
 
-        console.log("Starting SPA check...");
-        const spaResult = await isSinglePageApplication(url.value);
-        console.log("SPA check complete:", spaResult);
+        // Prepare the analysis result without sending errors to the client
+        const analysisResult = {};
 
-        console.log("Starting image optimization...");
-        const optimizationResult = await optimizeImages(url.value);
-        console.log("Image optimization complete:", optimizationResult);
+        if (results[0].status === 'fulfilled') {
+            analysisResult.emissions = results[0].value;
+        } else {
+            console.error('CO2 Analysis Error:', results[0].reason); // Log error on server side
+        }
 
-        // Compile all results into one object
-        const analysisResult = {
-            emissions: emissionsResult,
-            cssOptimization: cssResult,
-            spaCheck: spaResult,
-            imageOptimization: optimizationResult,
-        };
+        if (results[1].status === 'fulfilled') {
+            analysisResult.cssOptimization = results[1].value;
+        } else {
+            console.error('CSS Optimization Error:', results[1].reason); // Log error on server side
+        }
 
-        // Use util.inspect to safely print the object with circular references
-        // const safeResult = util.inspect(analysisResult, { depth: null, colors: false });
-        res.json(analysisResult); // Send back the compiled result as JSON
+        if (results[2].status === 'fulfilled') {
+            analysisResult.spaCheck = results[2].value;
+        } else {
+            console.error('SPA Check Error:', results[2].reason); // Log error on server side
+        }
+
+        if (results[3].status === 'fulfilled') {
+            analysisResult.imageOptimization = results[3].value;
+        } else {
+            console.error('Image Optimization Error:', results[3].reason); // Log error on server side
+        }
+
+        // Send back the compiled result with only successful results
+        res.json(analysisResult);
+
     } catch (error) {
-        console.error("Error during analysis:", error);
-        res.status(500).json({ error: error.message });
+        console.error("Unexpected Error during analysis:", error);
+        res.status(500).json({ error: 'An unexpected error occurred.' }); // Only general error to client
     }
 });
 

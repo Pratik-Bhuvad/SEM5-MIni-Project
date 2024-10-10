@@ -54,7 +54,7 @@ const fetchCSSFromURL = async (url) => {
 // CSS Optimization Logic
 const optimizeCSS = async (url) => {
     console.log(`Optimizing CSS for URL: ${url}`);
-    
+
     try {
         const allCss = await fetchCSSFromURL(url); // Fetch CSS using the provided URL
 
@@ -75,27 +75,26 @@ const optimizeCSS = async (url) => {
         try {
             minifiedCss = await postcss([cssnano]).process(optimizedCss, { from: undefined, parser: postcssSafeParser });
         } catch (minificationError) {
-            // Ignore all minification errors silently
+            console.error('Minification Error:', minificationError.message);
         }
 
         return {
             originalCSSLength: allCss.length,
-            originalCSS: allCss,
+            originalCSS: allCss, // Optionally you can limit how much you log here
             purgedCSSLength: optimizedCss.length,
             minifiedCSSLength: minifiedCss.css.length,
-            minifiedCSS: minifiedCss.css,
+            minifiedCSS: minifiedCss.css, // Optionally you can limit how much you log here
         };
     } catch (error) {
-        // Handle any errors silently, just return a message if needed
+        console.error('Error during CSS optimization:', error.message);
         return { error: 'CSS optimization failed, but errors were ignored.' };
     }
 };
 
-
 // API endpoint for CSS optimization
 router.post('/', async (req, res) => {
     console.log('Received request:', req.body);
-    
+
     const { url } = req.body; // Expecting url as an object
 
     // Validate the URL format
@@ -103,7 +102,7 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ error: 'Invalid URL format. Expected an object with a string property "value".' });
     }
 
-    try {   
+    try {
         console.log(`Received request for CSS optimization: ${JSON.stringify(req.body)}`);
         const result = await optimizeCSS(url.value); // Access the URL value from the object
         res.json(result);

@@ -5,7 +5,7 @@ import Home from "./Pages/Home"
 import Emission from "./Pages/Emission"
 import About from "./Pages/About"
 import Guidlines from "./Pages/Guidlines"
-// import User from "./Pages/User"
+import User from "./Pages/User"
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/about" element={<About />}/>
         <Route path="/check" element={<Emission />}/>
         <Route path="/guide" element={<Guidlines />}/>
-        {/* <Route path="/user" element={<User />}/> */}
+        <Route path="/user" element={<User />}/>
       </Routes>
       <Footer />
     </Router>

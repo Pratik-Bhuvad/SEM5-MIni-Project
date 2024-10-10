@@ -8,8 +8,8 @@ const ImageOptimization = ({ imageOptimization }) => {
             <div className="grid grid-cols-1 gap-4">
                 {imageOptimization.map((image, index) => (
                     <div key={index} className=' p-4'>
-                        <div className="flex justify-evenly mb-2">
-                            <div className="flex flex-col *:my-1 border-2 p-4 w-2/5">
+                        <div className="flex flex-col md:flex-row justify-evenly mb-2">
+                            <div className="flex flex-col my-3 md:my-0 *:my-1 border-2 p-4 md:w-2/5">
                                 <img 
                                     src={image.original.url} 
                                     alt={`Original ${index}`} 
@@ -20,7 +20,7 @@ const ImageOptimization = ({ imageOptimization }) => {
                                 <p>Size: {image.original.size.toFixed(2)} kb</p>
                                 <p>CO2: {image.original.co2.toFixed(2)} g</p>
                             </div>
-                            <div className="flex flex-col *:my-1 border-2 p-4 w-2/5">
+                            <div className="flex flex-col my-3 md:my-0 *:my-1 border-2 p-4 md:w-2/5">
                                 <img 
                                     src={image.optimized.url} 
                                     alt={`Optimized ${index}`} 

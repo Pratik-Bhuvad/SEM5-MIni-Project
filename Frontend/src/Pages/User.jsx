@@ -1,144 +1,154 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { auth } from '../firebase/firebaseConfig'; // Import the auth object
-// import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // Import GoogleAuthProvider and signInWithPopup
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-// const User = () => {
-//     const [isLogin, setIsLogin] = useState(false);
-//     const [formData, setFormData] = useState({
-//         username: '',
-//         email: '',
-//         password: ''
-//     });
+const User = () => {
+    const navigate = useNavigate()
+    const [isLogin, setIsLogin] = useState(false); // State to toggle between login and signup
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: ''
+    });
+    const [errors, setErrors] = useState({}); // State for storing error messages
 
-//     const handleChange = (e) => {
-//         setFormData({
-//             ...formData,
-//             [e.target.name]: e.target.value
-//         });
-//     };
+    // Handle input changes
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+        setErrors({}); // Clear errors on input change
+    };
 
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
+    // Form validation function
+    const validateForm = () => {
+        const newErrors = {};
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8}/; // Password must be at least 8 characters long and contain letters and numbers
 
-//         try {
-//             if (isLogin) {
-//                 // Login functionality
-//                 const res = await axios.post('http://localhost:5000/api/auth/login', {
-//                     email: formData.email,
-//                     password: formData.password
-//                 });
-//                 alert('Login successful! Your token: ' + res.data.token);
-//             } else {
-//                 // Signup functionality
-//                 const res = await axios.post('http://localhost:5000/api/auth/signup', {
-//                     username: formData.username,
-//                     email: formData.email,
-//                     password: formData.password
-//                 });
-//                 alert('Signup successful! Your token: ' + res.data.token);
-//             }
-//         } catch (err) {
-//             alert(err.response.data.msg || 'Error occurred!');
-//         }
-//     };
+        if (!isLogin) {
+            if (!formData.username.trim()) {
+                newErrors.username = 'Username is required';
+            }
+        }
 
-//     const handleGoogleSignIn = async () => {
-//         const provider = new GoogleAuthProvider();
-//         try {
-//             const result = await signInWithPopup(auth, provider);
-//             const user = result.user;
-//             // Optionally, send user data to your backend for further processing
-//             alert(`Google Sign-in successful! Welcome ${user.displayName}`);
-//             // Here, you can send user information to your backend if needed
-//         } catch (error) {
-//             alert(error.message);
-//         }
-//     };
+        if (!formData.email.trim() || !emailRegex.test(formData.email)) {
+            newErrors.email = 'Valid email is required';
+        }
 
-//     return (
-//         <div className='w-screen h-[88vh] flex items-center'>
-//             <div className="max-w-md w-2/6 mx-auto mt-10 bg-white p-6 rounded-md shadow-md">
-//                 <h2 className="text-3xl font-bold text-center mb-4">
-//                     {isLogin ? 'Login' : 'Sign Up'}
-//                 </h2>
-//                 <form onSubmit={handleSubmit}>
-//                     {!isLogin && (
-//                         <div className="mb-4">
-//                             <label className="block mb-2">Username:</label>
-//                             <input
-//                                 type="text"
-//                                 name="username"
-//                                 value={formData.username}
-//                                 onChange={handleChange}
-//                                 required
-//                                 className="w-full px-4 py-2 border rounded-md"
-//                             />
-//                         </div>
-//                     )}
-//                     <div className="mb-4">
-//                         <label className="block mb-2">Email:</label>
-//                         <input
-//                             type="email"
-//                             name="email"
-//                             value={formData.email}
-//                             onChange={handleChange}
-//                             required
-//                             className="w-full px-4 py-2 border rounded-md"
-//                         />
-//                     </div>
-//                     <div className="mb-4">
-//                         <label className="block mb-2">Password:</label>
-//                         <input
-//                             type="password"
-//                             name="password"
-//                             value={formData.password}
-//                             onChange={handleChange}
-//                             required
-//                             className="w-full px-4 py-2 border rounded-md"
-//                         />
-//                     </div>
-//                     <button
-//                         type="submit"
-//                         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
-//                     >
-//                         {isLogin ? 'Login' : 'Sign Up'}
-//                     </button>
-//                 </form>
+        if (!passwordRegex.test(formData.password) || formData.password.trim() === '') {
+            newErrors.password = 'Password must be at least 8 characters long and contain letters and numbers.';
+        }
 
-//                 <button
-//                     onClick={handleGoogleSignIn}
-//                     className="w-full mt-4 bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300"
-//                 >
-//                     {isLogin ? 'Login with Google' : 'Sign Up with Google'}
-//                 </button>
+        setErrors(newErrors); // Update errors state
+        return Object.keys(newErrors).length === 0; // Return true if no errors
+    };
 
-//                 <p className="text-center mt-4">
-//                     {isLogin ? (
-//                         <>
-//                             Don't have an account?{' '}
-//                             <span
-//                                 className="text-blue-500 cursor-pointer"
-//                                 onClick={() => setIsLogin(false)}
-//                             >
-//                                 Sign Up here.
-//                             </span>
-//                         </>
-//                     ) : (
-//                         <>
-//                             Already have an account?{' '}
-//                             <span
-//                                 className="text-blue-500 cursor-pointer"
-//                                 onClick={() => setIsLogin(true)}
-//                             >
-//                                 Login here.
-//                             </span>
-//                         </>
-//                     )}
-//                 </p>
-//             </div>
-//         </div>
-//     );
-// };
+    // API calls for signup and login
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const isValid = validateForm(); // Validate form data
 
-// export default User;
+        if (!isValid) {
+            return; // Prevent submission if validation fails
+        }
+
+        const API_URL = 'http://localhost:5000/api/auth/';
+
+        try {
+            if (isLogin) {
+                // Login API call
+                const response = await axios.post(API_URL + 'login', {
+                    email: formData.email,
+                    password: formData.password
+                });
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                alert('Login successful!');
+                navigate('/')
+            } else {
+                // Signup API call
+                const response = await axios.post(API_URL + 'signup', {
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password
+                });
+                alert('Signup successful! Welcome, ' + formData.username);
+                navigate('/')
+            }
+        } catch (error) {
+            alert(error.response?.data?.message || 'An error occurred!');
+        }
+    };
+
+    return (
+        <div className="flex items-center justify-center md:h-[87.5vh] h-[82vh] bg-gray-100 px-3">
+            <div className="bg-white p-8 rounded-lg shadow-md w-96">
+                <h2 className="text-2xl font-bold text-center mb-6">{isLogin ? 'Login' : 'Signup'}</h2>
+                <form onSubmit={handleSubmit}>
+                    {!isLogin && (
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700">Username</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                required={!isLogin}
+                                placeholder="Enter your username"
+                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                            />
+                            {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
+                        </div>
+                    )}
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            placeholder="Enter your email"
+                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                        />
+                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                            placeholder="Enter your password"
+                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                        />
+                        {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white font-bold py-2 rounded-md hover:bg-blue-700 transition duration-200"
+                    >
+                        {isLogin ? 'Login' : 'Signup'}
+                    </button>
+                </form>
+
+                {/* Toggle between Login and Signup */}
+                <p
+                    className="mt-4 text-center text-blue-600 cursor-pointer hover:underline"
+                    onClick={() => setIsLogin(!isLogin)}
+                >
+                    {isLogin ? "Don't have an account? Signup here" : 'Already have an account? Login here'}
+                </p>
+            </div>
+        </div>
+    );
+};
+
+export default User;
