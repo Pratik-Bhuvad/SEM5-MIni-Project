@@ -13,7 +13,7 @@ const Header = () => {
       {/* Logo */}
       <div className="logo">
         <Link to='/' className="font-bold text-3xl uppercase font-mono">
-          Eco<span className="font-mono font-thin text-2xl">Emission</span>
+          Carbon<span className="font-mono font-thin text-2xl">Conscious</span>
         </Link>
       </div>
 

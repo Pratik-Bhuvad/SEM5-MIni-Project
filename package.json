@@ -25,6 +25,7 @@
     "framer-motion": "^11.11.7",
     "jsdom": "^25.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.0"
+    "mongoose": "^8.7.0",
+    "react-loader-spinner": "^6.1.6"
   }
 }

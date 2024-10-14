@@ -10,11 +10,9 @@ const postcssSafeParser = require('postcss-safe-parser');
 // Function to fetch CSS from a URL
 const fetchCSSFromURL = async (url) => {
     try {
-        console.log(`Fetching HTML from URL: ${url}`);
         const response = await axios.get(url);
         const html = response.data;
 
-        console.log('HTML fetched successfully. Extracting CSS links...');
 
         const $ = cheerio.load(html);
         const cssLinks = [];
@@ -28,14 +26,11 @@ const fetchCSSFromURL = async (url) => {
             }
         });
 
-        console.log('Extracted CSS Links:', cssLinks);
 
         // Fetch the CSS contents
         const cssContents = await Promise.all(cssLinks.map(async (link) => {
             try {
-                console.log(`Fetching CSS from: ${link}`);
                 const cssResponse = await axios.get(link);
-                console.log(`Successfully fetched CSS from: ${link}`);
                 return cssResponse.data;
             } catch (err) {
                 console.error(`Error fetching CSS from ${link}:`, err.message);
@@ -43,7 +38,6 @@ const fetchCSSFromURL = async (url) => {
             }
         }));
 
-        console.log('All CSS contents fetched successfully.');
         return cssContents.join('\n'); // Combine all CSS content
     } catch (error) {
         console.error('Error fetching HTML:', error.message);
@@ -53,12 +47,10 @@ const fetchCSSFromURL = async (url) => {
 
 // CSS Optimization Logic
 const optimizeCSS = async (url) => {
-    console.log(`Optimizing CSS for URL: ${url}`);
 
     try {
         const allCss = await fetchCSSFromURL(url); // Fetch CSS using the provided URL
 
-        console.log('Total CSS length before purging:', allCss.length);
 
         // Purge unused CSS
         const purgeCSSResults = await new PurgeCSS().purge({
@@ -68,7 +60,6 @@ const optimizeCSS = async (url) => {
 
         const optimizedCss = purgeCSSResults.map(result => result.css).join('\n');
 
-        console.log('CSS length after purging:', optimizedCss.length);
 
         // Minify the CSS using safe parser, ignoring errors silently
         let minifiedCss = { css: optimizedCss }; // Default to optimized CSS
@@ -93,7 +84,6 @@ const optimizeCSS = async (url) => {
 
 // API endpoint for CSS optimization
 router.post('/', async (req, res) => {
-    console.log('Received request:', req.body);
 
     const { url } = req.body; // Expecting url as an object
 
@@ -103,7 +93,6 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        console.log(`Received request for CSS optimization: ${JSON.stringify(req.body)}`);
         const result = await optimizeCSS(url.value); // Access the URL value from the object
         res.json(result);
     } catch (error) {

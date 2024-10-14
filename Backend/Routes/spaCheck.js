@@ -28,7 +28,7 @@ async function isSinglePageApplication(url) {
     });
 
     // Go to the URL with a reasonable timeout and minimal waiting time
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 10000 }); // 10 seconds timeout
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 1000000 }); // 10 minutes timeout
 
     // Check for root element (common in SPAs)
     const rootElement = await page.evaluate(() => {
@@ -38,7 +38,7 @@ async function isSinglePageApplication(url) {
     // Check for AJAX requests by observing the network
     const ajaxRequestCount = await page.evaluate(() => {
         return performance.getEntriesByType('resource')
-            .filter(entry => entry.initiatorType === 'xmlhttprequest').length;
+            // .filter(entry => entry.initiatorType === 'xmlhttprequest').length;
     });
 
     // Check for History API usage

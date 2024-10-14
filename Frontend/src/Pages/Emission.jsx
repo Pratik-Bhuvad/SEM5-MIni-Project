@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MagnifyingGlass } from 'react-loader-spinner';
 import axios from 'axios';
 import EmissionResult from '../components/EmissionResult';
 import CssOptimization from '../components/CssOptimization';
@@ -8,6 +9,7 @@ import ImageOptimization from '../components/ImageOptimization';
 const Emission = () => {
     const [weburl, setWeburl] = useState('');
     const [response, setResponse] = useState(null);
+    const [loading, setLoading] = useState(false);;
 
     const handleChange = (e) => {
         setWeburl(e.target.value);
@@ -23,17 +25,25 @@ const Emission = () => {
             return;
         }
 
+        setLoading(true);  // Set loading to true when API call starts
+        setResponse(null);
+
         try {
-            const res = await axios.post('http://localhost:5000/api/analyze', {
+            console.log(weburl)
+            const res = await axios.post('http://192.168.91.171:5000/api/analyze', {
                 url: {
                     value: weburl
                 }
             });
             setResponse(res.data);
+
             console.log(res.data);
+
         } catch (error) {
-            console.error('Error during API call:', error);
-            alert('There was an error analyzing the URL. Please try again later.');
+            console.error('Error during API call or storing data:', error);
+            alert('There was an error analyzing the URL or storing data. Please try again later.');
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -45,6 +55,23 @@ const Emission = () => {
                 <input type="text" value={weburl} onChange={handleChange} className='border-2 border-black px-5 text-xl text-center' placeholder='Website.com' />
                 <input type="submit" className='font-bold text-xl bg-black text-white cursor-pointer shadow-zinc-800 shadow-md' value="Calculate CO2 Emission" />
             </form>
+
+            {loading && (
+                <div className='text-center mt-5'>
+                    <p className='text-2xl font-mono'>Calculating CO2 emissions...</p>
+                    <div className='flex justify-center items-center mt-3'>
+                        <MagnifyingGlass
+                            visible={true}
+                            height="180"
+                            width="180"
+                            ariaLabel="magnifying-glass-loading"
+                            wrapperClass="magnifying-glass-wrapper"
+                            glassColor="#c0efff"
+                            color="#e15b64"
+                        />
+                    </div>
+                </div>
+            )}
 
             {response && (
                 <div id="Response" className="mt-5 md:w-3/5 mx-auto *:my-5">

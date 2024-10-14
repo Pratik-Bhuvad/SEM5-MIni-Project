@@ -49,13 +49,13 @@ const User = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validateForm(); // Validate form data
-
+    
         if (!isValid) {
             return; // Prevent submission if validation fails
         }
-
+    
         const API_URL = 'http://localhost:5000/api/auth/';
-
+    
         try {
             if (isLogin) {
                 // Login API call
@@ -63,10 +63,18 @@ const User = () => {
                     email: formData.email,
                     password: formData.password
                 });
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-                alert('Login successful!');
-                navigate('/')
+    
+                // Assuming the response contains a user object and token
+                const { user, token } = response.data;
+    
+                if (user && token) {
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user._id));
+                    alert('Login successful!');
+                    navigate('/');
+                } else {
+                    throw new Error('User data is missing in the response.');
+                }
             } else {
                 // Signup API call
                 const response = await axios.post(API_URL + 'signup', {
@@ -81,6 +89,7 @@ const User = () => {
             alert(error.response?.data?.message || 'An error occurred!');
         }
     };
+    
 
     return (
         <div className="flex items-center justify-center md:h-[87.5vh] h-[82vh] bg-gray-100 px-3">

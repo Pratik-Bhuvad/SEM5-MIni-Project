@@ -5,6 +5,7 @@ const { router: cssOptimizationRouter } = require('./Routes/cssOptimization');
 const { router: spaCheckRoute } = require('./Routes/spaCheck');
 const analyzeRoute = require('./Routes/analyze');
 const { router: imageOptimization } = require('./Routes/imageOptimize');
+const estimationRoutes = require('./Routes/estimationRoutes');
 const { signup, login } = require('./Controller/authController');
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ connectDB().then(() => {
     app.use('/api/spa', spaCheckRoute);
     app.use('/api/analyze', analyzeRoute);
     app.use('/api/image', imageOptimization);
+    app.use('/api/store-estimation',estimationRoutes);
     app.use('/api/auth/signup', signup);
     app.use('/api/auth/login', login);
 
@@ -33,7 +35,7 @@ connectDB().then(() => {
     });
 
     // Start the server only after successful database connection
-    app.listen(PORT, () => {
+    app.listen(PORT,'0.0.0.0', () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
 }).catch(error => {

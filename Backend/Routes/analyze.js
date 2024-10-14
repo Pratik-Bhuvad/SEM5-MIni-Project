@@ -17,8 +17,6 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        // Use Promise.allSettled to handle each function independently
-        console.log("Starting comprehensive analysis...");
 
         const results = await Promise.allSettled([
             Co2Routes(url), // CO2 emissions analysis

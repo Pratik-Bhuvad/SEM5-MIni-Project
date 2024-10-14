@@ -5,8 +5,8 @@
         "description": "Analyze and reduce your website's carbon footprint based on energy usage."
       },
       {
-        "title": "Lazy Loading Detection",
-        "description": "Check whether your website uses lazy loading to optimize image and resource usage."
+        "title": "Image Optimization Suggestion",
+        "description": "Check whether the image used in website is optimized or not and provide suggestions"
       },
       {
         "title": "CSS Optimization Suggestions",

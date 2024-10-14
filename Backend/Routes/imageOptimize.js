@@ -53,7 +53,7 @@ async function uploadOptimizedImage(imageUrl) {
         folder: 'img-carbon-checker',
         resource_type: 'auto',
         transformation: [
-            { quality: 'auto', fetch_format: 'auto' , flags: 'lossy'} // Ensure optimization parameters are applied
+            { quality: 'auto', fetch_format: 'avif'} // Ensure optimization parameters are applied
         ],
     });
     return {
