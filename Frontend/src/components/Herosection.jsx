@@ -11,7 +11,7 @@ const Herosection = () => {
                 <p className='md:text-xl md:text-justify text-center px-1 md:px-0 mb-5'>
                     Take the first step towards sustainability by assessing and lowering the carbon emissions produced by your website.
                 </p>
-                <button className='rounded-full ml-12 md:ml-0 bg-blue-300 p-3 px-5 text-xl font-bold text-slate-800'>
+                <button className='rounded-full ml-[5rem] md:ml-0 bg-blue-300 p-3 px-5 text-xl font-bold text-slate-800'>
                     <Link to='/check'>
                         Start the Analysis
                     </Link>

@@ -54,7 +54,7 @@ const User = () => {
             return; // Prevent submission if validation fails
         }
     
-        const API_URL = 'http://localhost:5000/api/auth/';
+        const API_URL = 'http://192.168.90.29:5000/api/auth/';
     
         try {
             if (isLogin) {

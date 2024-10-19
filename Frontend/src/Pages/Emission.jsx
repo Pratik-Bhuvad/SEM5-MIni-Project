@@ -9,12 +9,19 @@ import ImageOptimization from '../components/ImageOptimization';
 const Emission = () => {
     const [weburl, setWeburl] = useState('');
     const [response, setResponse] = useState(null);
-    const [loading, setLoading] = useState(false);;
+    const [loading, setLoading] = useState(false);
 
+    // Handle input change
     const handleChange = (e) => {
         setWeburl(e.target.value);
     };
 
+    // Check if user is logged in by checking token in localStorage
+    const isLoggedIn = () => {
+        return localStorage.getItem('token');
+    };
+
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -25,25 +32,45 @@ const Emission = () => {
             return;
         }
 
-        setLoading(true);  // Set loading to true when API call starts
+        setLoading(true);
         setResponse(null);
 
         try {
-            console.log(weburl)
-            const res = await axios.post('http://192.168.91.171:5000/api/analyze', {
+            console.log(weburl);
+            
+            // API call to analyze the CO2 emission
+            const res = await axios.post('http://192.168.90.29:5000/api/analyze', {
                 url: {
                     value: weburl
                 }
             });
             setResponse(res.data);
-
             console.log(res.data);
+            console.log(localStorage.getItem('token'))
+
+            // If user is logged in, store the analysis result in the database
+            if (isLoggedIn()) {
+                const token = localStorage.getItem('token');
+                
+                // API call to store data
+                await axios.post('http://192.168.90.29:5000/api/store-emission', {
+                    url: weburl,
+                    emissionData: res.data // Send the result data for storage
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // Send token in headers
+                    }
+                });
+                console.log('Data stored successfully in the database.');
+            } else {
+                console.log('User not logged in. Data was not stored.');
+            }
 
         } catch (error) {
             console.error('Error during API call or storing data:', error);
-            alert('There was an error analyzing the URL or storing data. Please try again later.');
+            // alert('There was an error analyzing the URL or storing data. Please try again later.');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 

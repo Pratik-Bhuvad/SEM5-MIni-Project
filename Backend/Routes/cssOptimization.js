@@ -79,6 +79,8 @@ const optimizeCSS = async (url) => {
     } catch (error) {
         console.error('Error during CSS optimization:', error.message);
         return { error: 'CSS optimization failed, but errors were ignored.' };
+    } finally {
+        
     }
 };
 
