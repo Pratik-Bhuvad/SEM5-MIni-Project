@@ -9,7 +9,6 @@
 - User registration and login (including Google Sign-In).
 - CO2 emission estimation for websites.
 - User-friendly interface built with React and Tailwind CSS.
-- Secure authentication with Firebase.
 
 ## Technologies Used
 
@@ -24,8 +23,6 @@
   - Express
   - MongoDB (or Firebase for database management)
 
-- **Authentication**: 
-  - Firebase Authentication
 
 ## Getting Started
 
@@ -33,7 +30,6 @@
 
 - Node.js (v14 or later)
 - npm (Node Package Manager)
-- A Firebase project setup for authentication
 
 ### Installation
 
